@@ -1,0 +1,62 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2025 Roberto Benedetti
+name: setup-oracle-free-lite
+
+description: Setup Oracle Database Free Lite.
+
+branding:
+  icon: 'database'
+  color: 'red'
+
+inputs:
+  tag:
+    description: >-
+      Image tag from https://container-registry.oracle.com/ords/ocr/ba/database/free'
+      (default: latest-lite). Must contain hyphen delimited 'lite' word.
+    required: false
+
+  container-name:
+    description: 'Container name (default: oracle-db)'
+    required: false
+
+  oracle-pwd:
+    description: 'SYS, SYSTEM and PDB_ADMIN password (default: auto generated)'
+    required: false
+
+  oracle-pdb:
+    description: 'Pluggable database name (default: FREEPDB1)'
+    required: false
+
+  port:
+    description: 'Port for database connections (default: 1521)'
+    required: false
+
+  startup-scripts:
+    description: 'Absolute path to startup scripts directory (default: empty)'
+    required: false
+
+  readiness-retries:
+    description: 'Readiness check retries before exiting with error (default: 10)'
+    required: false
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Check runner support
+      if: runner.os != 'Linux'
+      shell: bash
+      run: |
+        echo "::error:: ${RUNNER_OS} is not supported."
+        exit 1
+
+    - name: Setup database
+      shell: bash
+      run: "${{ github.action_path }}/setup.sh"
+      env:
+        TAG: ${{ inputs.tag }}
+        CONTAINER_NAME: ${{ inputs.container-name }}
+        ORACLE_PWD: ${{ inputs.oracle-pwd }}
+        ORACLE_PDB: ${{ inputs.oracle-pdb }}
+        PORT: ${{ inputs.port }}
+        STARTUP_SCRIPTS: ${{ inputs.startup-scripts }}
+        READINESS_RETRIES: ${{ inputs.readiness-retries }}

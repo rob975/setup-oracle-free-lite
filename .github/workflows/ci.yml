@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  expected-success:
+    strategy:
+      fail-fast: false
+      matrix:
+        tag: [23.6.0.0-lite, latest-lite]
+        os: [ubuntu-22.04, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      TAG: ${{ matrix.tag }}
+      PORT: 1522
+      ORACLE_PWD: oracle
+      ORACLE_PDB: orcl
+      USER_NAME: test
+      USER_PWD: test
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create DDL script
+        run: |
+          mkdir scripts
+          cat > scripts/user.sql <<EOF
+          alter session set container=$ORACLE_PDB;
+          create user $USER_NAME identified by "$USER_PWD";
+          grant create session to $USER_NAME;
+          exit
+          EOF
+
+      - uses: rob975/setup-oracle-free-lite@main
+        with:
+          port: ${{ env.PORT }}
+          oracle-pdb: ${{ env.ORACLE_PDB }}
+          startup-scripts: ${{ github.workspace }}/scripts
+
+      - name: Set up instant client
+        uses: iamazeem/setup-oracle-instant-client-action@v2
+
+      - name: Test connection
+        run: |
+          sqlplus -l -S $USER_NAME/"$USER_PWD"@localhost:$PORT/$ORACLE_PDB <<EOF
+          select user;
+          exit
+          EOF
+
+  expected-failure:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      TAG: latest
+      CONTAINER_NAME: .racle-db
+      ORACLE_PWD: orac"e
+      ORACLE_PDB: 0rcl
+      PORT: 15w40
+      STARTUP_SCRIPTS: ./relative-directory
+      READINESS_RETRIES: 1o
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Invoke script
+        run: ./setup.sh && false || true
