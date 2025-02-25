@@ -9,7 +9,10 @@ Setup Oracle Database Free Lite
   :target: https://github.com/rob975/setup-oracle-free-lite/actions/workflows/dependabot/dependabot-updates
   :alt: Dependabot Updates
 
-|CI| |Dependabot Updates|
+.. |Release| image:: https://img.shields.io/github/v/release/rob975/setup-oracle-free-lite
+   :alt: Release
+
+|CI| |Dependabot Updates| |Release|
 
 `GitHub Action <https://docs.github.com/actions>`_ to set up an Oracle Database using
 `Oracle Database 23ai Free Lite Container images <https://container-registry.oracle.com/ords/ocr/ba/database/free>`_.
