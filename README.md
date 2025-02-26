@@ -1,9 +1,10 @@
 
 # Setup Oracle Database Free Lite
 
+[![Code](https://img.shields.io/badge/Code-Setup_Oracle_Free_Lite-blue?logo=github&logoColor=rgb(149%2C157%2C165)&labelColor=rgb(53%2C60%2C67))](https://github.com/rob975/setup-oracle-free-lite)
+[![Release](https://img.shields.io/github/v/release/rob975/setup-oracle-free-lite?logo=github&logoColor=rgb(149%2C157%2C165)&label=Release&labelColor=rgb(53%2C60%2C67))](https://github.com/rob975/setup-oracle-free-lite/releases)
 [![CI](https://github.com/rob975/setup-oracle-free-lite/actions/workflows/ci.yml/badge.svg)](https://github.com/rob975/setup-oracle-free-lite/actions/workflows/ci.yml)
 [![Dependabot Updates](https://github.com/rob975/setup-oracle-free-lite/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/rob975/setup-oracle-free-lite/actions/workflows/dependabot/dependabot-updates)
-![GitHub Release](https://img.shields.io/github/v/release/rob975/setup-oracle-free-lite)
 
 > [!IMPORTANT]
 > Only Linux [runners](https://github.com/actions/runner-images) are supported.
@@ -60,7 +61,7 @@ jobs:
           oracle-pwd: <password>
 ```
 
-### Start up scripts
+### Startup scripts
 
 ```yaml
 jobs:
