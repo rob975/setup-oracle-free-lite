@@ -112,13 +112,13 @@ end_group
 
 start_group "⏰ Waiting for database to be ready"
 
-# If case of success container logs contain:
+# In case of success, container logs contain:
 #   - the message "DATABASE IS READY TO USE!"
-#   - optionally the execution of startup scripts
+#   - the output of startup scripts
 #   - the message "The following output is now a tail of the alert.log:"
-# We wait for both messages to be on the safe side
-# The value obtained by inspecting the key .State.Health.Status" cannot be
-# trusted because the value "healthy" is returned too early
+# We wait for both messages to be on the safe side.
+# The value of the key ".State.Health.Status" returned by inspect command
+# cannot be trusted because "healthy" is returned too early.
 ret=1
 count=0
 lines=0
