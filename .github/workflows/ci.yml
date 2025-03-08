@@ -44,7 +44,7 @@ jobs:
           exit
           EOF
 
-      - uses: rob975/setup-oracle-free-lite@main
+      - uses: ./
         with:
           port: ${{ env.PORT }}
           oracle-pdb: ${{ env.ORACLE_PDB }}
