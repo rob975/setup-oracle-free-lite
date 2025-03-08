@@ -9,11 +9,17 @@
 > [!IMPORTANT]
 > Only Linux [runners](https://github.com/actions/runner-images) are supported.
 
-[GitHub Action](https://docs.github.com/actions) to set up an Oracle Database using [
-Oracle Database 23ai Free Lite Container](https://container-registry.oracle.com/ords/ocr/ba/database/free>) images.
+[GitHub Action](https://docs.github.com/actions) to set up an Oracle Database using
+[Oracle Database 23ai Free Lite Container](https://container-registry.oracle.com/ords/ocr/ba/database/free) images.
 
 Oracle Database 23ai Free Lite Container image contains a pre-built database, so
 the startup time is very fast.
+
+## Key Features
+
+- Pulling container images is way faster
+- Lite container images are suitable for CI scenarios
+- Action returns only after startup scripts are executed
 
 > [!IMPORTANT]
 > Image tags are deliberately limited to those containing `lite` word.
