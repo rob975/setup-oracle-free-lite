@@ -34,7 +34,7 @@ start_group "🔍 Validating options"
 
 # container runtime value and validation
 # podman does not work: https://github.com/oracle/docker-images/issues/2925
-CONTAINER_RUNTIME=podman
+CONTAINER_RUNTIME=docker
 command -v -- "${CONTAINER_RUNTIME}" >/dev/null
 ret=$?
 validate ${ret} "Container runtime: ${CONTAINER_RUNTIME}"
