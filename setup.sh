@@ -114,25 +114,25 @@ start_group "⏰ Waiting for database to be ready"
 
 # In case of success, container logs contain:
 #   - the message "DATABASE IS READY TO USE!"
-#   - the output of startup scripts
+#   - optional output of startup scripts
 #   - the message "The following output is now a tail of the alert.log:"
-# We wait for both messages to be on the safe side.
+# In case of failure, container logs contain:
+#   - the message "DATABASE SETUP WAS NOT SUCCESSFUL!"
+#   - the message "The following output is now a tail of the alert.log:"
+# We wait for those messages to be on the safe side.
 # The value of the key ".State.Health.Status" returned by inspect command
 # cannot be trusted because "healthy" is returned too early.
-ret=1
 count=0
-lines=0
 width=${#READINESS_RETRIES}
-while [[ ${ret} -ne 0 ]] && [[ ${count} -lt ${READINESS_RETRIES} ]]; do
+while [[ ${count} -lt ${READINESS_RETRIES} ]]; do
   ((count++))
   printf "  - Try #%${width}d of %d\n" "${count}" "${READINESS_RETRIES}"
   sleep 10
-  lines=$(
-    "${CONTAINER_RUNTIME}" logs "${CONTAINER_NAME}" 2>/dev/null |
-      grep -Ec '^(DATABASE IS READY TO USE!|The following output is now a tail of the alert\.log:)$'
-  )
-  [[ ${lines} -eq 2 ]] && ret=0 || ret=1
+  { "${CONTAINER_RUNTIME}" logs "${CONTAINER_NAME}" 2>/dev/null |
+    grep -q "^The following output is now a tail of the alert\.log:$"; } && break
 done
+{ "${CONTAINER_RUNTIME}" logs "${CONTAINER_NAME}" 2>/dev/null |
+  grep -q '^DATABASE IS READY TO USE!$'; } && ret=0 || ret=1
 
 end_group
 
