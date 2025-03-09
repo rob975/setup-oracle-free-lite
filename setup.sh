@@ -131,7 +131,8 @@ while [[ ${count} -lt ${READINESS_RETRIES} ]]; do
   { "${CONTAINER_RUNTIME}" logs "${CONTAINER_NAME}" 2>/dev/null |
     grep -q "^The following output is now a tail of the alert\.log:$"; } && break
 done
-grep -q '^DATABASE IS READY TO USE!$' && ret=0 || ret=1
+{ "${CONTAINER_RUNTIME}" logs "${CONTAINER_NAME}" 2>/dev/null |
+  grep -q '^DATABASE IS READY TO USE!$'; } && ret=0 || ret=1
 
 end_group
 
