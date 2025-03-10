@@ -17,9 +17,11 @@ the startup time is very fast.
 
 ## Key Features
 
-- Pulling container images is way faster
+- Pulling lite container images is way faster
 - Lite container images are suitable for CI scenarios
 - Action returns only after startup scripts are executed
+- No additional pluggable database except the one specified (default: `FREEPDB1`)
+- No additional tablespace except SYSTEM, SYSAUX, TEMP and UNDOTBS1
 
 > [!IMPORTANT]
 > Image tags are deliberately limited to those containing `lite` word.
