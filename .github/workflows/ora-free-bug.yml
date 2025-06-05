@@ -10,7 +10,8 @@ jobs:
       matrix:
         tag: [23.6.0.0-lite, latest-lite]
         runtime: [docker, podman]
-    runs-on: ubuntu-latest
+        os: [ubuntu-latest, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.os }}
     steps:
       - run: >-
           ${{ matrix.runtime }} run -d --name oracle-db
