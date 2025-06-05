@@ -1,0 +1,24 @@
+name: ora-free-bug
+on:
+  push:
+    paths:
+      - '**/ora-free-bug.yml'
+jobs:
+  test-oracle-free:
+    strategy:
+      fail-fast: false
+      matrix:
+        tag: [23.6.0.0-lite, latest-lite]
+        runtime: [docker, podman]
+    runs-on: ubuntu-latest
+    steps:
+      - run: >-
+          ${{ matrix.runtime }} run -d --name oracle-db
+          container-registry.oracle.com/database/free:${{ matrix.tag }}
+      - run: sleep 60
+      - run: |
+          echo "::group::Logs"
+          ${{ matrix.runtime }} logs oracle-db
+          echo "::endgroup::"
+          status=$(${{ matrix.runtime }} inspect -f "{{.State.Status}}" oracle-db)
+          [[ $status = "running" ]] && exit 0 || exit 1
