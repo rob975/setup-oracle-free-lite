@@ -20,7 +20,7 @@ jobs:
       - name: wait for alert.log tail
         run: |
           retry=1
-          until { ${{ matrix.runtime }} logs oracle-db | grep -q "^The following .* tail .* alert\.log:$"; } || [ $retry -gt 30 ]; do
+          until { ${{ matrix.runtime }} logs oracle-db 2>/dev/null | grep -q "^The following .* tail .* alert\.log:$"; } || [ $retry -gt 30 ]; do
             sleep 5
             ((retry++))
           done
@@ -29,4 +29,4 @@ jobs:
           echo "::group::Logs"
           ${{ matrix.runtime }} logs oracle-db
           echo "::endgroup::"
-          { ${{ matrix.runtime }} logs oracle-db | grep -q "^DATABASE IS READY TO USE!$"; } && exit 0 || exit 1
+          { ${{ matrix.runtime }} logs oracle-db 2>/dev/null | grep -q "^DATABASE IS READY TO USE!$"; } && exit 0 || exit 1
