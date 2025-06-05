@@ -22,7 +22,7 @@ jobs:
           retry=1
           until { ${{ matrix.runtime }} logs oracle-db | grep -q "^The following .* tail .* alert\.log:$"; } || [ $retry -gt 30 ]; do
             sleep 5
-            ((var++))
+            ((retry++))
           done
       - name: test database is ready
         run: |
