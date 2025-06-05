@@ -16,7 +16,9 @@ jobs:
       - run: >-
           ${{ matrix.runtime }} run -d --name oracle-db
           container-registry.oracle.com/database/free:${{ matrix.tag }}
-      - run: sleep 60
+      - run: |
+          while ! grep -q 'The following output is now a tail of the alert\.log' pom.xml; do sleep 5; done
+          sleep 5
       - run: |
           echo "::group::Logs"
           ${{ matrix.runtime }} logs oracle-db
