@@ -32,7 +32,7 @@ jobs:
       USER_PWD: test
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Create DDL script
         run: |
@@ -76,6 +76,6 @@ jobs:
       READINESS_RETRIES: 1o
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Invoke script
         run: ./setup.sh && false || true
